@@ -6,6 +6,11 @@ class SongHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
+    this.postSongHandler = this.postSongHandler.bind(this);
+    this.getSongsHandler = this.getSongsHandler.bind(this);
+    this.getSongByIdHandler = this.getSongByIdHandler.bind(this);
+    this.putSongByIdHandler = this.putSongByIdHandler.bind(this);
+    this.deleteSongByIdHandler = this.deleteSongByIdHandler.bind(this);
   }
 
   async postSongHandler(request, h) {
@@ -15,7 +20,12 @@ class SongHandler {
         title, year, performer, genre, duration, albumId,
       } = request.payload;
       const songId = await this._service.addSong({
-        title, year, performer, genre, duration, albumId,
+        title,
+        year,
+        performer,
+        genre,
+        duration,
+        albumId,
       });
       const response = h.response({
         status: 'success',
@@ -47,12 +57,19 @@ class SongHandler {
     }
   }
 
-  async getSongsHandler() {
-    const songs = this._service.getSongs();
+  async getSongsHandler(request) {
+    const songs = await this._service.getSongs();
+    const { title, performer } = request.query;
+    const regex = new RegExp(title, 'i');
+    const regex2 = new RegExp(performer, 'i');
+    const filteredSongs = songs.filter(
+      (song) => song.title.match(regex) && song.performer.match(regex2),
+    );
+
     return {
       status: 'success',
       data: {
-        songs,
+        songs: filteredSongs,
       },
     };
   }

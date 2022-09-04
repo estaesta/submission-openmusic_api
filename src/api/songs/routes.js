@@ -22,7 +22,7 @@ const routes = (handler) => [
   {
     method: 'DELETE',
     path: '/songs/{id}',
-    handler: handler.deleteSongById,
+    handler: handler.deleteSongByIdHandler,
   },
 ];
 
