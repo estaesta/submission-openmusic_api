@@ -57,21 +57,30 @@ class SongHandler {
     }
   }
 
-  async getSongsHandler(request) {
-    const songs = await this._service.getSongs();
-    const { title, performer } = request.query;
-    const regex = new RegExp(title, 'i');
-    const regex2 = new RegExp(performer, 'i');
-    const filteredSongs = songs.filter(
-      (song) => song.title.match(regex) && song.performer.match(regex2),
-    );
-
-    return {
-      status: 'success',
-      data: {
-        songs: filteredSongs,
-      },
-    };
+  async getSongsHandler(request, h) {
+    try {
+      const songs = await this._service.getSongs();
+      const { title, performer } = request.query;
+      const regexTitle = new RegExp(title, 'i');
+      const regexPerformer = new RegExp(performer, 'i');
+      const filteredSongs = songs.filter(
+        (song) => song.title.match(regexTitle) && song.performer.match(regexPerformer),
+      );
+      return {
+        status: 'success',
+        data: {
+          songs: filteredSongs,
+        },
+      };
+    } catch (error) {
+      const response = h.response({
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
+      });
+      response.code(500);
+      console.error(error);
+      return response;
+    }
   }
 
   async getSongByIdHandler(request, h) {
