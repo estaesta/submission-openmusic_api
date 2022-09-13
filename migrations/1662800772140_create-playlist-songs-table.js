@@ -12,11 +12,13 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
       references: 'playlists',
+      onDelete: 'cascade',
     },
     song_id: {
       type: 'VARCHAR(50)',
       notNull: true,
       references: 'songs',
+      onDelete: 'cascade',
     },
   });
 };

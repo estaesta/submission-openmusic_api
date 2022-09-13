@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const ClientError = require('../../exceptions/ClientError');
 
-class AuthenticationHandler {
+class AuthenticationsHandler {
   constructor(authenticationsService, usersService, tokenManager, validator) {
     this._authenticationsService = authenticationsService;
     this._usersService = usersService;
@@ -128,4 +128,4 @@ class AuthenticationHandler {
   }
 }
 
-module.exports = AuthenticationHandler;
+module.exports = AuthenticationsHandler;

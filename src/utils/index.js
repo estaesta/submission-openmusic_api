@@ -1,7 +1,14 @@
 /* eslint-disable camelcase */
-const mapSongByIdToModel = (song) => ({
-  ...song,
-  albumId: song.album_id,
+const mapSongByIdToModel = ({
+  id, title, year, performer, genre, duration, album_id,
+}) => ({
+  id,
+  title,
+  year,
+  performer,
+  genre,
+  duration,
+  albumId: album_id,
 });
 
 module.exports = { mapSongByIdToModel };
